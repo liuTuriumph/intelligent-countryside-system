@@ -1,0 +1,35 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://175.178.224.177:3306/countryside
+    username: root
+    password: 789852Az@
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #cos密钥
+  tengxun:
+    SecretId: AKIDCDySgdKktmOlvsYx4uTlmWzB6kBMGtFK
+    SecretKey: pNdfQu61f28xVmmVx82f7OQBftrc6JFv
+    region: ap-guangzhou
+    url: https://intelligentcountry-1306217706.cos.ap-guangzhou.myqcloud.com
+    bucketName: intelligentcountry-1306217706
+  profiles:
+    active: dev
+
+mybatis-plus:
+  type-aliases-package: com.kivze.domain
+  mapper-locations: classpath:com/kivze/mapper/*.xml
+  global-config:
+    db-config:
+      id-type: auto #id生成规则：数据库id自增
+  configuration:
+    map-underscore-to-camel-case: false # 开启驼峰功能
+    auto-mapping-behavior: full # 自动映射任何复杂的结果
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-handlers-package: com.kivze.util
+
+
+#对象地址前缀
+MyAddress: "https://intelligentcountry-1306217706.cos.ap-guangzhou.myqcloud.com"
+
