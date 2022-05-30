@@ -1,16 +1,20 @@
 package com.kivze;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kivze.domain.ChatPostInfo;
+import com.kivze.domain.ChatPostReply;
 import com.kivze.domain.PageQueryInfo;
 import com.kivze.mapper.PostsInfoMapper;
+import com.kivze.mapper.PostsReplyMapper;
 import com.kivze.mapper.SwiperMapper;
 import com.kivze.mapper.UserMapper;
 import com.kivze.service.PicUpLoadService;
 import com.kivze.service.PostsInfoService;
+import com.kivze.service.PostsReplyService;
 import com.kivze.service.SwiperService;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
@@ -68,6 +72,12 @@ public class springTest {
     @Autowired
     private PostsInfoMapper mapper;
 
+    @Autowired
+    private PostsReplyMapper postsReplyMapper;
+
+    @Autowired
+    private PostsReplyService postsReplyService;
+
 
     @BeforeEach
     public void init(){
@@ -84,7 +94,10 @@ public class springTest {
 
     @Test
     void test8(){
-
+        /*List<ChatPostReply> chatPostReplyList = postsReplyMapper.selectList(new QueryWrapper<ChatPostReply>());
+        System.out.println(chatPostReplyList.get(0).getReplyType());*/
+        List<ChatPostReply> childReply = postsReplyService.getChildReply(1);
+        System.out.println(childReply);
     }
 
     //测试分页

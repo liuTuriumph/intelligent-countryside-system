@@ -51,14 +51,7 @@ public class PostsInfoServiceImpl implements PostsInfoService {
         return 0;
     }
 
-    //根据传入的动态id返回该动态回复信息列表
-    @Override
-    public List<ChatPostReply> getPostReply(int postId) {
-        QueryWrapper<ChatPostReply> wrapper = new QueryWrapper<ChatPostReply>();
-        wrapper.eq("postId",postId);
-        List<ChatPostReply> chatPostReplyList = postsReplyMapper.selectList(wrapper);
-        return chatPostReplyList;
-    }
+
 
 
 }

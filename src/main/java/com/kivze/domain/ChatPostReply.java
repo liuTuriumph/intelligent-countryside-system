@@ -13,10 +13,13 @@ public class ChatPostReply {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer postId;
+    private Integer replyId;
+    private Boolean replyType;
     private String openid;
     private String nickName;
     private String faceImage;
     private String content;
     private String toOpenid;
+    private String toNickName;
     private Date time;
 }

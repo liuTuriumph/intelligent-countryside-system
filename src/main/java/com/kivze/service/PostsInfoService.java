@@ -14,5 +14,5 @@ public interface PostsInfoService {
 
     int addPostsReply(ChatPostReply chatPostReply);
 
-    List<ChatPostReply> getPostReply(int postId);
+
 }

@@ -6,6 +6,7 @@ import com.kivze.domain.ChatPostReply;
 import com.kivze.domain.PageQueryInfo;
 import com.kivze.domain.TmpCosSecre;
 import com.kivze.service.PostsInfoService;
+import com.kivze.service.PostsReplyService;
 import com.kivze.service.UserInfoService;
 import com.kivze.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class ChatController {
 
     @Autowired
     private PostsInfoService postsInfoService;
+
+    @Autowired
+    private PostsReplyService postsReplyService;
 
     //返回openid
     @GetMapping("/getOpenId/{code}")
@@ -78,10 +82,20 @@ public class ChatController {
     }
     //根据传入的动态id返回该动态回复信息列表
     @GetMapping("/getReply/{postId}")
-    public R getUserOpenId(@PathVariable int postId){
+    public R getPostsReply(@PathVariable int postId){
         try {
-            List<ChatPostReply> postReply = postsInfoService.getPostReply(postId);
+            List<ChatPostReply> postReply = postsReplyService.getPostReply(postId);
             return new R(true,postReply);
+        } catch (Exception e) {
+            return new R(false,"error");
+        }
+    }
+    //根据传入的父级回复id返回该父级回复的子级回复信息列表
+    @GetMapping("/getChildReply/{replyId}")
+    public R getChildReply(@PathVariable int replyId){
+        try {
+            List<ChatPostReply> childReply = postsReplyService.getChildReply(replyId);
+            return new R(true,childReply);
         } catch (Exception e) {
             return new R(false,"error");
         }
