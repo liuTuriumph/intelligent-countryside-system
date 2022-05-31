@@ -14,7 +14,6 @@ public class ChatPostInfo {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private Integer postId;
     private String openid;
     private String nickName;
     private String faceImage;
