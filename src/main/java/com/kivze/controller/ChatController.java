@@ -1,10 +1,8 @@
 package com.kivze.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.kivze.domain.ChatPostInfo;
-import com.kivze.domain.ChatPostReply;
-import com.kivze.domain.PageQueryInfo;
-import com.kivze.domain.TmpCosSecre;
+import com.kivze.domain.*;
+import com.kivze.service.PostsFunctionCountService;
 import com.kivze.service.PostsInfoService;
 import com.kivze.service.PostsReplyService;
 import com.kivze.service.UserInfoService;
@@ -29,6 +27,9 @@ public class ChatController {
     @Autowired
     private PostsReplyService postsReplyService;
 
+    @Autowired
+    private PostsFunctionCountService postsFunctionCountService;
+
     //返回openid
     @GetMapping("/getOpenId/{code}")
     public R getUserOpenId(@PathVariable String code){
@@ -52,9 +53,14 @@ public class ChatController {
     }
     //将动态的内容存入数据库中
     @PostMapping("/addPostsInfo")
-    public void addPostsInfo(@RequestBody ChatPostInfo chatPostInfo){
-        int i = postsInfoService.addPostsInfo(chatPostInfo);
-        System.out.println(i);
+    public R addPostsInfo(@RequestBody ChatPostInfo chatPostInfo){
+        int[] ints = postsInfoService.addPostsInfo(chatPostInfo);
+        //如果影响行数为0，代表未插入成功
+        if (ints[0] == 0){
+            return new R(false,"error");
+        }
+        //插入成功，将自增长的id值返回
+        return new R(true,ints[1]);
     }
     //返回PostsInfo动态信息
     @GetMapping("/getNewPostsInfo")
@@ -69,6 +75,16 @@ public class ChatController {
             return new R(false,"error");
         }
 
+    }
+    //根据id查询对应的PostsInfo动态信息
+    @GetMapping("/getPostsInfoById/{id}")
+    public R getPostsInfoById(@PathVariable Integer id){
+        try {
+            ChatPostInfo postsById = postsInfoService.getPostsById(id);
+            return new R(true,postsById);
+        } catch (Exception e) {
+            return new R(false,"error");
+        }
     }
     //将回复的内容存入数据库中
     @PostMapping("/addPostsReply")
@@ -100,4 +116,44 @@ public class ChatController {
             return new R(false,"error");
         }
     }
+
+    //在存储动态转发，点赞数的表中，创建该表的记录
+    @PostMapping("/addPostsCount")
+    public R addPostsCount(@RequestBody Integer postId){
+        int i = postsFunctionCountService.addPostsCount(postId);
+        if (i == 0){
+            return new R(false,"error");
+        }
+        return new R(true,"success");
+    }
+
+    //根据传入的帖子id，返回该帖子的点赞等数量
+    @GetMapping("/getPostsFunctionCount/{postId}")
+    public R getPostsFunctionCount(@PathVariable int postId){
+        try {
+            ChatPostFunctionCount postsCount = postsFunctionCountService.getPostsCount(postId);
+            return new R(true,postsCount);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new R(false,"error");
+        }
+    }
+    //更新回复数
+    @PutMapping("/updateReplyCount/{postId}/{replyCount}")
+    public R updateReplyCount(@PathVariable int postId,@PathVariable int replyCount){
+        int result = postsFunctionCountService.updateReplyCount(postId, replyCount);
+        if (result == 0){
+            return new R(false,"error");
+        }
+        return new R(true,"success");
+    }
+    //更新转发数
+    /*@PutMapping("/updateShareCount/{postId}/{shareCount}")
+    public R updateShareCount(@PathVariable int postId,@PathVariable int shareCount){
+        int result = postsFunctionCountService.updateShareCount(postId, shareCount);
+        if (result == 0){
+            return new R(false,"error");
+        }
+        return new R(true,"success");
+    }*/
 }

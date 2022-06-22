@@ -2,16 +2,15 @@ package com.kivze;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kivze.domain.ChatPostFunctionCount;
 import com.kivze.domain.ChatPostInfo;
 import com.kivze.domain.ChatPostReply;
 import com.kivze.domain.PageQueryInfo;
-import com.kivze.mapper.PostsInfoMapper;
-import com.kivze.mapper.PostsReplyMapper;
-import com.kivze.mapper.SwiperMapper;
-import com.kivze.mapper.UserMapper;
+import com.kivze.mapper.*;
 import com.kivze.service.PicUpLoadService;
 import com.kivze.service.PostsInfoService;
 import com.kivze.service.PostsReplyService;
@@ -79,6 +78,13 @@ public class springTest {
     private PostsReplyService postsReplyService;
 
 
+    @Autowired
+    private PostsInfoMapper postsInfoMapper;
+
+    @Autowired
+    private PostsFunctionCountMapper postsFunctionCountMapper;
+
+
     @BeforeEach
     public void init(){
         //1.初始化用户的身份信息
@@ -90,15 +96,46 @@ public class springTest {
         COSClient cosClient = new COSClient(cred,clientConfig);
         this.cosClient = cosClient;
     }
+    /*@Test
+    void test12(){
+        UpdateWrapper<ChatPostFunctionCount> uw = new UpdateWrapper<>();
+        uw.eq("postId",30).set("shareCount",1);
+        int result = this.postsFunctionCountMapper.update(null, uw);
+        System.out.println(result);
+    }*/
 
+    /*@Test
+    void test11(){
+        QueryWrapper<ChatPostFunctionCount> qw = new QueryWrapper<>();
+        qw.eq("postId",28);
+        ChatPostFunctionCount cpfc = postsFunctionCountMapper.selectOne(qw);
+        System.out.println(cpfc);
+    }*/
 
-    @Test
+    /*@Test
+    void test10(){
+        ChatPostFunctionCount cpfc = new ChatPostFunctionCount();
+        cpfc.setPostId(1145);
+        cpfc.setShareCount(0);
+        cpfc.setPrizeCount(0);
+        int result = postsFunctionCountMapper.insert(cpfc);
+    }*/
+
+    /*@Test
+    void test9(){
+        int id=18;
+        QueryWrapper<ChatPostInfo> queryWrapper = new QueryWrapper<ChatPostInfo>();
+        queryWrapper.eq("id",id);
+        postsInfoMapper.selectOne(queryWrapper);
+    }*/
+
+    /*@Test
     void test8(){
-        /*List<ChatPostReply> chatPostReplyList = postsReplyMapper.selectList(new QueryWrapper<ChatPostReply>());
-        System.out.println(chatPostReplyList.get(0).getReplyType());*/
+        *//*List<ChatPostReply> chatPostReplyList = postsReplyMapper.selectList(new QueryWrapper<ChatPostReply>());
+        System.out.println(chatPostReplyList.get(0).getReplyType());*//*
         List<ChatPostReply> childReply = postsReplyService.getChildReply(1);
         System.out.println(childReply);
-    }
+    }*/
 
     //测试分页
     /*@Test

@@ -8,11 +8,12 @@ import com.kivze.domain.PageQueryInfo;
 import java.util.List;
 
 public interface PostsInfoService {
-    int addPostsInfo(ChatPostInfo chatPostInfo);
+    int[] addPostsInfo(ChatPostInfo chatPostInfo);
 
     PageInfo<ChatPostInfo> getNewAllPostsInfo(PageQueryInfo pageInfo);
 
     int addPostsReply(ChatPostReply chatPostReply);
 
+    ChatPostInfo getPostsById(Integer id);
 
 }
