@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/kivze/user")
+@RequestMapping("/kivze/chat")
 public class ChatController {
 
     @Autowired
@@ -30,16 +30,7 @@ public class ChatController {
     @Autowired
     private PostsFunctionCountService postsFunctionCountService;
 
-    //返回openid
-    @GetMapping("/getOpenId/{code}")
-    public R getUserOpenId(@PathVariable String code){
-        try {
-            String openId = userInfoService.getOpenIdAndSession(code);
-            return new R(true,openId);
-        } catch (Exception e) {
-            return new R(false,"error");
-        }
-    }
+
     //返回cos的临时密钥
     @GetMapping("/getCosSecre")
     public R getCosSecre(){
@@ -132,21 +123,44 @@ public class ChatController {
     public R getPostsFunctionCount(@PathVariable int postId){
         try {
             ChatPostFunctionCount postsCount = postsFunctionCountService.getPostsCount(postId);
+            Map<String,Object> map = new HashMap<>();
+
             return new R(true,postsCount);
         } catch (Exception e) {
             e.printStackTrace();
             return new R(false,"error");
         }
     }
-    //更新回复数
-    @PutMapping("/updateReplyCount/{postId}/{replyCount}")
-    public R updateReplyCount(@PathVariable int postId,@PathVariable int replyCount){
-        int result = postsFunctionCountService.updateReplyCount(postId, replyCount);
+    //增加回复数
+    @PutMapping("/addReplyCount/{postId}")
+    public R addReplyCount(@PathVariable int postId){
+        int result = postsFunctionCountService.addReplyCount(postId);
         if (result == 0){
             return new R(false,"error");
         }
         return new R(true,"success");
     }
+
+    //增加点赞数
+    @PutMapping("/addPrizeCount/{postId}")
+    public R addPrizeCount(@PathVariable int postId){
+        int result = postsFunctionCountService.addPrizeCount(postId);
+        if (result == 0){
+            return new R(false,"error");
+        }
+        return new R(true,"success");
+    }
+
+    //更新帖子的点赞用户列表
+    @PutMapping("/addPrizeUser/{postId}/{userId}")
+    public R addPrizeUser(@PathVariable int postId,@PathVariable int userId){
+        int result = postsFunctionCountService.addPrizeUser(postId, userId);
+        if (result == 0){
+            return new R(false,"error");
+        }
+        return new R(true,"success");
+    }
+
     //更新转发数
     /*@PutMapping("/updateShareCount/{postId}/{shareCount}")
     public R updateShareCount(@PathVariable int postId,@PathVariable int shareCount){

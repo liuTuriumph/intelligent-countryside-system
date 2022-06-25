@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @TableName("chat_postfunctioncount")
 public class ChatPostFunctionCount {
@@ -14,5 +16,5 @@ public class ChatPostFunctionCount {
     private int shareCount;
     private int prizeCount;
     private int replyCount;
-    private String prizeUser;
+    private List<String> prizeUser;
 }

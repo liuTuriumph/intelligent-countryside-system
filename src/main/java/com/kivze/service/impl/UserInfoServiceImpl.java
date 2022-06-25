@@ -1,18 +1,22 @@
 package com.kivze.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kivze.domain.OpenIds;
 import com.kivze.domain.TmpCosSecre;
+import com.kivze.domain.User;
+import com.kivze.mapper.UserMapper;
 import com.kivze.service.UserInfoService;
 import com.tencent.cloud.CosStsClient;
 import com.tencent.cloud.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 
@@ -30,6 +34,9 @@ public class UserInfoServiceImpl  implements UserInfoService {
 
     @Value("${spring.tengxun.bucketName}")
     private String bucketName;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public String getOpenIdAndSession(String code) throws JsonProcessingException {
@@ -106,4 +113,50 @@ public class UserInfoServiceImpl  implements UserInfoService {
             throw new IllegalArgumentException("no valid secret !");
         }
     }
+
+    @Override
+    public int getUserId(String openid) {
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.eq("openid",openid);
+        User user = userMapper.selectOne(qw);
+        //如果用户已经创建，返回该用户id
+        if (user != null) return user.getId();
+        //用户不存在，创建该用户
+        User user1 = new User();
+        user1.setOpenid(openid);
+        List<String> list = new ArrayList<>();
+        user1.setPrizePost(list);
+        user1.setSendPost(list);
+        int result = userMapper.insert(user1);
+        //创建失败返回-1
+        if (result == 0) return -1;
+        //创建成功，返回创建后自增长的id
+        return user1.getId();
+    }
+
+    @Override
+    public User getUserById(int userId) {
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.eq("id",userId);
+        User user = userMapper.selectOne(qw);
+        return user;
+    }
+
+    @Override
+    public int addPrizePost(int postId, int userId) {
+        //先获取数据库中的prizePost
+        User userById = this.getUserById(userId);
+        List<String> prizePost = userById.getPrizePost();
+        List<String> list = new ArrayList<>();
+        if (prizePost != null) list=new ArrayList<>(prizePost);
+        list.add(Integer.toString(postId));
+        //更新prizePost
+        User user = new User();
+        user.setId(userId);
+        user.setPrizePost(list);
+        int reslut = userMapper.addPrizePost(user);
+        return reslut;
+    }
+
+
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kivze.mapper.PostsFunctionCountMapper">
+    <resultMap id="BaseResultMap" type="com.kivze.domain.ChatPostFunctionCount">
+        <id column="id" property="id"/>
+        <result column="postId" property="postId"/>
+        <result column="shareCount" property="shareCount"/>
+        <result column="prizeCount" property="prizeCount"/>
+        <result column="replyCount" property="replyCount"/>
+        <result column="prizeUser" property="prizeUser" typeHandler="com.kivze.util.MyDateTypeHandler"/>
+    </resultMap>
+
+
+    <update id="addReplyCount" parameterType="int">
+        UPDATE chat_postfunctioncount set replyCount=replyCount+1
+        <where>
+            and postId=#{postId}
+        </where>
+    </update>
+
+    <update id="addPrizeCount" parameterType="int">
+        UPDATE chat_postfunctioncount set prizeCount=prizeCount+1
+        <where>
+            and postId=#{postId}
+        </where>
+    </update>
+
+    <update id="addPrizeUser" parameterType="com.kivze.domain.ChatPostFunctionCount">
+        UPDATE chat_postfunctioncount set prizeUser=#{prizeUser}
+        <where>
+            and postId=#{postId}
+        </where>
+    </update>
+    
+    <select id="getPrizeUserByPostId" resultType="list" parameterType="int">
+        select prizeUser from chat_postfunctioncount
+        <where>
+            and postId=#{postId}
+        </where>
+    </select>
+</mapper>

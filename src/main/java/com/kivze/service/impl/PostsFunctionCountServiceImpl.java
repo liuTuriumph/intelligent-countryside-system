@@ -2,11 +2,17 @@ package com.kivze.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kivze.domain.ChatPostFunctionCount;
+import com.kivze.domain.CountTest;
 import com.kivze.mapper.PostsFunctionCountMapper;
 import com.kivze.service.PostsFunctionCountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PostsFunctionCountServiceImpl implements PostsFunctionCountService {
@@ -23,6 +29,8 @@ public class PostsFunctionCountServiceImpl implements PostsFunctionCountService 
         cpfc.setShareCount(0);
         cpfc.setPrizeCount(0);
         cpfc.setReplyCount(0);
+        List<String> list = new ArrayList<>();
+        cpfc.setPrizeUser(list);
         int result = postsFunctionCountMapper.insert(cpfc);
         return result;
     }
@@ -35,28 +43,34 @@ public class PostsFunctionCountServiceImpl implements PostsFunctionCountService 
         ChatPostFunctionCount cpfc = postsFunctionCountMapper.selectOne(qw);
         return cpfc;
     }
-    //更新转发数
+
+    //更新帖子的点赞用户列表
     @Override
-    public int updateShareCount(int postId,int shareCount) {
-        UpdateWrapper<ChatPostFunctionCount> uw = new UpdateWrapper<>();
-        uw.eq("postId",postId).set("shareCount",shareCount);
-        int result = this.postsFunctionCountMapper.update(null, uw);
+    public int addPrizeUser(int postId,int userId) {
+        //先根据帖子id先获取prizeUser
+        ChatPostFunctionCount postsCount = this.getPostsCount(postId);
+        List<String> list = new ArrayList<>();
+        if (postsCount.getPrizeUser() != null) list = new ArrayList<>(postsCount.getPrizeUser());
+        list.add(Integer.toString(userId));
+        //更新列表
+        ChatPostFunctionCount cpfc = new ChatPostFunctionCount();
+        cpfc.setPrizeUser(list);
+        cpfc.setPostId(postId);
+        int result = postsFunctionCountMapper.addPrizeUser(cpfc);
         return result;
     }
-    //更新点赞数
-    @Override
-    public int updatePrizeCount(int postId,int prizeCount) {
-        UpdateWrapper<ChatPostFunctionCount> uw = new UpdateWrapper<>();
-        uw.eq("postId",postId).set("prizeCount",prizeCount);
-        int result = this.postsFunctionCountMapper.update(null, uw);
-        return result;
-    }
+
     //更新回复数
     @Override
-    public int updateReplyCount(int postId,int replyCount) {
-        UpdateWrapper<ChatPostFunctionCount> uw = new UpdateWrapper<>();
-        uw.eq("postId",postId).set("replyCount",replyCount);
-        int result = this.postsFunctionCountMapper.update(null, uw);
+    public int addReplyCount(int postId) {
+        int result = this.postsFunctionCountMapper.addReplyCount(postId);
+        return result;
+    }
+
+    //增加回复数
+    @Override
+    public int addPrizeCount(int postId) {
+        int result = postsFunctionCountMapper.addPrizeCount(postId);
         return result;
     }
 }

@@ -3,18 +3,9 @@ package com.kivze;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.kivze.domain.ChatPostFunctionCount;
-import com.kivze.domain.ChatPostInfo;
-import com.kivze.domain.ChatPostReply;
-import com.kivze.domain.PageQueryInfo;
+import com.kivze.domain.*;
 import com.kivze.mapper.*;
-import com.kivze.service.PicUpLoadService;
-import com.kivze.service.PostsInfoService;
-import com.kivze.service.PostsReplyService;
-import com.kivze.service.SwiperService;
+import com.kivze.service.*;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -84,6 +75,12 @@ public class springTest {
     @Autowired
     private PostsFunctionCountMapper postsFunctionCountMapper;
 
+    @Autowired
+    private PostsFunctionCountService postsFunctionCountService;
+
+    @Autowired
+    private UserInfoService userInfoService;
+
 
     @BeforeEach
     public void init(){
@@ -96,6 +93,32 @@ public class springTest {
         COSClient cosClient = new COSClient(cred,clientConfig);
         this.cosClient = cosClient;
     }
+
+    @Test
+    void test13(){
+        /*List<String> prizeUser = new ArrayList<>();
+        prizeUser.add("1");
+        prizeUser.add("2");
+        int postId = 31;
+        ChatPostFunctionCount cpfc = new ChatPostFunctionCount();
+        cpfc.setPostId(postId);
+        cpfc.setPrizeUser(prizeUser);
+        postsFunctionCountMapper.addPrizeUser(cpfc);*/
+
+        /*int i = userInfoService.addPrizePost(1, 1);
+        System.out.println(i);*/
+
+    }
+
+    /*@Test
+    void test13(){
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.eq("openid",1);
+        User user = userMapper.selectOne(qw);
+        System.out.println(user == null);
+    }*/
+
+
     /*@Test
     void test12(){
         UpdateWrapper<ChatPostFunctionCount> uw = new UpdateWrapper<>();
