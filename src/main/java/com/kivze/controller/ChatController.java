@@ -161,6 +161,33 @@ public class ChatController {
         return new R(true,"success");
     }
 
+    //根据postId集合查询帖子集合
+    @GetMapping("/getPostListById/{userId}")
+    public R getPostListById(@PathVariable int userId,PageQueryInfo pageInfo){
+        try {
+            PageInfo<ChatPostInfo> postListById = postsInfoService.getPostListById(userId, pageInfo);
+            Map<String,Object> map = new HashMap<>();
+            map.put("postsInfoList",postListById.getList());
+            map.put("total",postListById.getTotal());
+            return new R(true,map);
+        } catch (Exception e) {
+            return new R(false,e.getCause());
+        }
+    }
+
+    //根据postId集合查询用户点赞帖子集合
+    @GetMapping("/getPrizeListById/{userId}")
+    public R getPrizeListById(@PathVariable int userId,PageQueryInfo pageInfo){
+        try {
+            PageInfo<ChatPostInfo> postListById = postsInfoService.getPrizeListById(userId, pageInfo);
+            Map<String,Object> map = new HashMap<>();
+            map.put("postsInfoList",postListById.getList());
+            map.put("total",postListById.getTotal());
+            return new R(true,map);
+        } catch (Exception e) {
+            return new R(false,e.getCause());
+        }
+    }
     //更新转发数
     /*@PutMapping("/updateShareCount/{postId}/{shareCount}")
     public R updateShareCount(@PathVariable int postId,@PathVariable int shareCount){
