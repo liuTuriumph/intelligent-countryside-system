@@ -9,14 +9,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   #cos密钥
   tengxun:
-    SecretId: AKIDCDySgdKktmOlvsYx4uTlmWzB6kBMGtFK
-    SecretKey: pNdfQu61f28xVmmVx82f7OQBftrc6JFv
+    SecretId: XXXX
+    SecretKey: XXXX
     region: ap-guangzhou
-    url: https://intelligentcountry-1306217706.cos.ap-guangzhou.myqcloud.com
-    bucketName: intelligentcountry-1306217706
+    url: XXXX
+    bucketName: XXXX
 
 mybatis-plus:
-  type-aliases-package: com.kivze.domain
+  type-aliases-package: XXXX
   mapper-locations: classpath:com/kivze/mapper/*.xml
   global-config:
     db-config:
