@@ -16,4 +16,7 @@ public interface PostsInfoService {
 
     ChatPostInfo getPostsById(Integer id);
 
+    PageInfo<ChatPostInfo> getPostListById(Integer userId, PageQueryInfo pageInfo);
+
+    PageInfo<ChatPostInfo> getPrizeListById(Integer userId, PageQueryInfo pageInfo);
 }

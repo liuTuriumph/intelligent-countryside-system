@@ -96,6 +96,15 @@ public class springTest {
 
     @Test
     void test13(){
+
+        User user = userMapper.selectOne(new QueryWrapper<User>().eq("id", 3));
+        System.out.println(user);
+        System.out.println(user.getSendPost());
+
+        /*List<ChatPostInfo> chatPostInfos = postsInfoMapper.selectBatchIds(user.getSendPost());
+        System.out.println(chatPostInfos);
+        System.out.println(chatPostInfos.isEmpty());*/
+
         /*List<String> prizeUser = new ArrayList<>();
         prizeUser.add("1");
         prizeUser.add("2");

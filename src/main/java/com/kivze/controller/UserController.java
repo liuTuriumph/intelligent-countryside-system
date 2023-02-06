@@ -1,5 +1,6 @@
 package com.kivze.controller;
 
+import com.kivze.domain.User;
 import com.kivze.service.UserInfoService;
 import com.kivze.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,28 @@ public class UserController {
         return new R(true,userId);
     }
 
+    //根据用户id获取用户信息
+    @GetMapping("/getUserById/{userId}")
+    public R getUserById(@PathVariable int userId){
+        User userById = userInfoService.getUserById(userId);
+        if (userById == null){
+            return new R(false,"error");
+        }
+        return new R(true,userById);
+    }
     //向用户表添加该用户点赞过的帖子id
     @PutMapping("/addPrizePost/{postId}/{userId}")
     public R addPrizePost(@PathVariable int postId,@PathVariable int userId){
         int result = userInfoService.addPrizePost(postId, userId);
+        if (result == 0){
+            return new R(false,"error");
+        }
+        return new R(true,"success");
+    }
+    //向用户表添加该用户发布的帖子id
+    @PutMapping("/addSendPost/{postId}/{userId}")
+    public R addSendPost(@PathVariable int postId,@PathVariable int userId){
+        int result = userInfoService.addSendPost(postId, userId);
         if (result == 0){
             return new R(false,"error");
         }
