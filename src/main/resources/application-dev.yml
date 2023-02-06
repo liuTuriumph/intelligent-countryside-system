@@ -4,8 +4,8 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/countryside
-    username: root
-    password: 789852
+    username: XXX
+    password: XXX
     driver-class-name: com.mysql.cj.jdbc.Driver
   #cos密钥
   tengxun:
