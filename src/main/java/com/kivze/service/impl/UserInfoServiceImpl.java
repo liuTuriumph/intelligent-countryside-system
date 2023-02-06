@@ -148,6 +148,7 @@ public class UserInfoServiceImpl  implements UserInfoService {
         User userById = this.getUserById(userId);
         List<String> prizePost = userById.getPrizePost();
         List<String> list = new ArrayList<>();
+        //如果prizePost不为空则将查询到的数据添加
         if (prizePost != null) list=new ArrayList<>(prizePost);
         list.add(Integer.toString(postId));
         //更新prizePost
@@ -155,6 +156,23 @@ public class UserInfoServiceImpl  implements UserInfoService {
         user.setId(userId);
         user.setPrizePost(list);
         int reslut = userMapper.addPrizePost(user);
+        return reslut;
+    }
+
+    @Override
+    public int addSendPost(int postId, int userId) {
+        //先获取数据库中的sendPost
+        User userById = this.getUserById(userId);
+        List<String> sendPost = userById.getSendPost();
+        List<String> list = new ArrayList<>();
+        //如果sendPost不为空则将查询到的数据添加
+        if (sendPost != null) list=new ArrayList<>(sendPost);
+        list.add(Integer.toString(postId));
+        //更新sendPost
+        User user = new User();
+        user.setId(userId);
+        user.setSendPost(list);
+        int reslut = userMapper.addSendPost(user);
         return reslut;
     }
 

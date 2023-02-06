@@ -20,6 +20,9 @@ public interface UserInfoService {
     //向用户表添加该用户点赞过的帖子id
     int addPrizePost(int postId,int userId);
 
+    //向用户表添加该用户点赞过的帖子id
+    int addSendPost(int postId,int userId);
+
     //获取用户
     User getUserById(int userId);
 }

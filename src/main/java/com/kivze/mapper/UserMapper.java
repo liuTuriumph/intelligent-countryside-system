@@ -8,4 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     int addPrizePost(User user);
+
+    int addSendPost(User user);
+
 }
