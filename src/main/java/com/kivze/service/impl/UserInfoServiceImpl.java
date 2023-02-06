@@ -42,9 +42,9 @@ public class UserInfoServiceImpl  implements UserInfoService {
     public String getOpenIdAndSession(String code) throws JsonProcessingException {
 
             //小程序唯一标识   (在微信小程序管理后台获取)
-            String wxspAppid = "wx18f02a4c8621d8cf";
+            String wxspAppid = "XXXX";
             //小程序的 app secret (在微信小程序管理后台获取)
-            String wxspSecret = "8bd5a8d7b079ff8401c7ce32c5145a7d";
+            String wxspSecret = "XXXX";
             //授权（必填）
             String grant_type = "authorization_code";
             //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
