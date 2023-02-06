@@ -3,22 +3,22 @@ server:
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://175.178.224.177:3306/countryside
-    username: root
-    password: 789852Az@
+    url: XXXX
+    username: XXXX
+    password: XXXX
     driver-class-name: com.mysql.cj.jdbc.Driver
   #cos密钥
   tengxun:
-    SecretId: AKIDCDySgdKktmOlvsYx4uTlmWzB6kBMGtFK
-    SecretKey: pNdfQu61f28xVmmVx82f7OQBftrc6JFv
+    SecretId: XXXX
+    SecretKey: XXXX
     region: ap-guangzhou
-    url: https://intelligentcountry-1306217706.cos.ap-guangzhou.myqcloud.com
-    bucketName: intelligentcountry-1306217706
+    url: XXXX
+    bucketName: XXXX
   profiles:
     active: dev
 
 mybatis-plus:
-  type-aliases-package: com.kivze.domain
+  type-aliases-package: XXXX
   mapper-locations: classpath:com/kivze/mapper/*.xml
   global-config:
     db-config:
@@ -31,5 +31,5 @@ mybatis-plus:
 
 
 #对象地址前缀
-MyAddress: "https://intelligentcountry-1306217706.cos.ap-guangzhou.myqcloud.com"
+MyAddress: XXXX
 
